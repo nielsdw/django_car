@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <h1>Onze app</h1>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <a href="{% url 'create_cars' %}">Create car</a>
+    <form action="{% url 'delete'  %}" method="post">
+    <table>
+        <tr>
+            <td>Doors</td>
+            <td>Engine</td>
+            <td>Has roof</td>
+        </tr>
+        {% for car in cars %}
+            <tr>
+                <td><input type="checkbox" name="{{ car.id }}"></td>
+                <td>{{ car.no_doors }}</td>
+                <td>{{ car.engine }}</td>
+                <td>{% if car.roof %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <input type="submit" value="Delete">
+    {% csrf_token %}
+    </form>
+{% endblock %}
